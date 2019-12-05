@@ -10,7 +10,7 @@ import (
 
 	engineio "github.com/googollee/go-engine.io"
 
-	"github.com/googollee/go-socket.io/parser"
+	"github.com/pupizoid/go-socket.io/parser"
 )
 
 // Conn is a connection in go-socket.io
