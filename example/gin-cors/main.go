@@ -7,9 +7,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	socketio "github.com/googollee/go-socket.io"
+	socketio "github.com/pupizoid/go-socket.io"
 )
-
 
 func GinMiddleware(allowOrigin string) gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -29,7 +28,7 @@ func GinMiddleware(allowOrigin string) gin.HandlerFunc {
 	}
 }
 
-func main(){
+func main() {
 	router := gin.New()
 	server, err := socketio.NewServer(nil)
 	if err != nil {
@@ -54,7 +53,7 @@ func main(){
 		s.Close()
 		return last
 	})
-	server.OnError("/", func(e error) {
+	server.OnError("/", func(c socketio.Conn, e error) {
 		fmt.Println("meet error:", e)
 	})
 	server.OnDisconnect("/", func(s socketio.Conn, msg string) {
@@ -64,7 +63,6 @@ func main(){
 	go server.Serve()
 	defer server.Close()
 
-
 	router.Use(GinMiddleware("http://localhost:3000"))
 	router.GET("/socket.io/*any", gin.WrapH(server))
 	router.POST("/socket.io/*any", gin.WrapH(server))
@@ -72,4 +70,3 @@ func main(){
 
 	router.Run()
 }
-
