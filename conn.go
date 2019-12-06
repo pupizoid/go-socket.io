@@ -1,7 +1,6 @@
 package socketio
 
 import (
-	"github.com/davecgh/go-spew/spew"
 	"net"
 	"net/http"
 	"net/url"
@@ -179,10 +178,8 @@ func (c *conn) serveWrite() {
 	for {
 		select {
 		case <-c.quitChan:
-			spew.Dump("Received quit chan!")
 			return
 		case pkg := <-c.writeChan:
-			spew.Dump("Write packets: ", pkg)
 			if err := c.encoder.Encode(pkg.header, pkg.data); err != nil {
 				c.onError(pkg.header.Namespace, err)
 			}
