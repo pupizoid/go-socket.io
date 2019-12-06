@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/url"
 	"reflect"
+	"runtime/debug"
 	"sync"
 
 	engineio "github.com/googollee/go-engine.io"
@@ -83,6 +84,7 @@ func newConn(c engineio.Conn, handlers map[string]*namespaceHandler, broadcast B
 
 func (c *conn) Close() error {
 	var err error
+	debug.PrintStack()
 	c.closeOnce.Do(func() {
 		// For each namespace, leave all rooms, and call the disconnect handler.
 		for ns, nc := range c.namespaces {
