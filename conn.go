@@ -1,6 +1,7 @@
 package socketio
 
 import (
+	"github.com/davecgh/go-spew/spew"
 	"net"
 	"net/http"
 	"net/url"
@@ -221,6 +222,7 @@ func (c *conn) serveRead() {
 				continue
 			}
 			types := handler.getTypes(header, event)
+			spew.Dump("types", types)
 			args, err := c.decoder.DecodeArgs(types)
 			if err != nil {
 				c.onError(header.Namespace, err)
